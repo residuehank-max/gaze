@@ -63,7 +63,7 @@ body{
 a{color:inherit}
 
 /* ---------- header ---------- */
-.masthead{display:flex; align-items:baseline; justify-content:space-between; gap:24px; padding-block:24px 18px; flex-wrap:wrap}
+.controls{display:flex; align-items:baseline; justify-content:space-between; gap:24px; padding-block:20px 10px; flex-wrap:wrap}
 .mark{font-family:var(--font-title); font-size:19px; letter-spacing:.14em; font-weight:400}
 .mark em{font-style:normal; color:var(--ink-faint); letter-spacing:.2em; font-size:12px; margin-left:10px}
 .nav{display:flex; gap:22px; font-size:11px; letter-spacing:.17em; text-transform:uppercase; color:var(--ink-soft)}
@@ -81,8 +81,6 @@ a{color:inherit}
 .note button{flex:none; background:none; border:0; color:var(--ink-faint); font:inherit; font-size:16px; line-height:1; cursor:pointer; padding:2px 4px}
 
 /* ---------- section bar ---------- */
-.bar{display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; padding-bottom:10px}
-.bar h1{margin:0; font-family:var(--font-title); font-weight:400; font-size:14px; letter-spacing:.12em}
 .views{display:flex; gap:14px; flex-wrap:wrap}
 .views button{
   background:none; border:0; padding:0 0 3px; font:inherit; font-size:11px; letter-spacing:.15em;
@@ -93,6 +91,7 @@ a{color:inherit}
 .views button:focus-visible{outline:1px solid var(--accent); outline-offset:3px}
 
 hr.rule{border:0; border-top:1px solid var(--rule); margin:0}
+.ends{border-top:1px solid var(--rule)}
 
 /* ---------- filters ---------- */
 .filters{display:flex; flex-wrap:wrap; gap:6px 20px; padding-block:14px 18px}
@@ -118,10 +117,10 @@ figure{margin:0}
 /* ====================================================
    VIEW: 單張 — one photo holds the screen
    ==================================================== */
-#single{padding-bottom:40px}
+#single{padding-top:14px; padding-bottom:34px}
 #single .stage{
   position:relative;
-  height:min(70vh, 760px); min-height:300px;
+  height:min(78vh, 880px); min-height:320px;
   display:flex; align-items:center; justify-content:center;
   touch-action:pan-y;
 }
@@ -147,7 +146,7 @@ figure{margin:0}
 
 #single .caption{
   display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;
-  padding-block:16px 4px; border-bottom:1px solid var(--rule); margin-bottom:22px;
+  padding-block:15px 0; margin-bottom:18px;
 }
 #single .caption .t{font-family:var(--font-title); font-size:15px; color:var(--ink)}
 #single .caption .y{color:var(--ink-faint); font-size:11.5px; font-variant-numeric:tabular-nums}
@@ -159,11 +158,12 @@ figure{margin:0}
 }
 
 #strip{
-  display:flex; gap:7px; overflow-x:auto; overflow-y:hidden; padding-bottom:8px;
+  display:flex; justify-content:center; gap:8px;
+  overflow-x:auto; overflow-y:hidden; padding-bottom:8px;
   scrollbar-width:thin;
 }
 #strip .th{
-  flex:none; width:54px; aspect-ratio:1/1; border:0; padding:0; cursor:pointer; opacity:.5;
+  flex:none; height:64px; width:auto; border:0; padding:0; cursor:pointer; opacity:.45;
   background-color:var(--c1);
   background-image:linear-gradient(164deg, var(--c1), var(--c2));
   transition:opacity .2s ease;
@@ -237,41 +237,20 @@ footer{padding-block:26px 44px; font-size:10.5px; letter-spacing:.13em; color:va
 #lb .close{font-size:11px; letter-spacing:.17em; text-transform:uppercase}
 
 @media (max-width:560px){
-  #single .stage{height:min(58vh, 520px)}
+  #single .stage{height:min(66vh, 560px); min-height:0}
+  #strip{justify-content:flex-start}
+  #strip .th{height:52px}
   #single .arrow, #lb #lbPrev, #lb #lbNext{display:none}
   #strip .th{width:44px}
   #works.masonry{columns:2 150px; column-gap:12px}
   #works.masonry .tile{margin-bottom:20px}
   #works.list .tile{grid-template-columns:60px 1fr; gap:12px}
-  .masthead{padding-block:18px 14px}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none !important}}
 </style>
 </head>
 <body>
 <div class="wrap">
-
-  <header class="masthead">
-    <div class="mark" id="mark">LIU<em>PHOTOGRAPHY</em></div>
-    <nav class="nav">
-      <a href="#works-top">Works</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-
-
-  <div class="bar" id="works-top">
-    <h1>WORKS</h1>
-    <div class="views" id="views">
-      <button type="button" data-view="single"  aria-pressed="true">單張</button>
-      <button type="button" data-view="masonry" aria-pressed="false">索引</button>
-      <button type="button" data-view="list"    aria-pressed="false">清單</button>
-    </div>
-  </div>
-  <hr class="rule">
-
-  <div class="filters" id="filters"></div>
 
   <!-- VIEW: single -->
   <div id="single" hidden>
@@ -288,11 +267,29 @@ footer{padding-block:26px 44px; font-size:10.5px; letter-spacing:.13em; color:va
     </div>
     <div id="strip"></div>
   </div>
-
   <!-- VIEW: masonry / list -->
   <div id="works" hidden></div>
-
   <p class="msg" id="msg">正在讀取 photos.json…</p>
+
+  <hr class="rule">
+
+  <div class="controls" id="works-top">
+    <div class="mark" id="mark">gaze<em>PHOTOGRAPHY</em></div>
+    <div class="views" id="views">
+      <button type="button" data-view="single"  aria-pressed="true">單張</button>
+      <button type="button" data-view="masonry" aria-pressed="false">索引</button>
+      <button type="button" data-view="list"    aria-pressed="false">清單</button>
+    </div>
+  </div>
+  <div class="filters" id="filters"></div>
+
+
+
+
+
+
+
+
 
   <div class="ends">
     <section id="about">
@@ -444,6 +441,22 @@ function fitBox(el, box, r){
   else { el.style.height = ch + 'px'; el.style.width = Math.round(ch * r) + 'px'; }
 }
 
+/* 把主照片放到最大，然後把舞台高度收到照片的高度。
+   不這樣做的話，手機上橫幅照片會浮在一大片空白中間。 */
+function fitStage(){
+  const p = shown[cur];
+  if (!p) return;
+  const r = ratioOf(p);
+  stageEl.style.height = '';                 // 先放開，量 CSS 給的上限
+  const maxH = stageEl.clientHeight, maxW = stageEl.clientWidth;
+  if (!maxH || !maxW) return;
+  let w = maxW, h = Math.round(maxW / r);
+  if (h > maxH){ h = maxH; w = Math.round(maxH * r); }
+  shotEl.style.width  = w + 'px';
+  shotEl.style.height = h + 'px';
+  stageEl.style.height = h + 'px';
+}
+
 /* ---------- render ---------- */
 function render(){
   shown = DATA.photos.filter(p => active === 'all' || inCat(p, active));
@@ -480,7 +493,7 @@ function paintSingle(){
     applySrc(img, p, SIZES.single);
     shotEl.appendChild(img);
   }
-  fitBox(shotEl, stageEl, ratioOf(p));
+  fitStage();
   syncHash();
 
   document.getElementById('cTitle').textContent = p.title || '';
@@ -531,6 +544,7 @@ function buildStrip(){
     const t = tone(p);
     b.style.setProperty('--c1', t[0]);
     b.style.setProperty('--c2', t[1]);
+    b.style.aspectRatio = p.ratio || '3/2';   // 縮圖保留原始比例：直幅窄、橫幅寬
     b.setAttribute('aria-label', p.title);
     b.setAttribute('aria-current', String(i === cur));
     if (p.file){
@@ -673,7 +687,7 @@ window.addEventListener('resize', () => {
   rid = setTimeout(() => {
     if (!shown.length) return;
     if (!lb.hidden) fitBox(lbShot, lbStage, ratioOf(shown[cur]));
-    else if (view === 'single') fitBox(shotEl, stageEl, ratioOf(shown[cur]));
+    else if (view === 'single') fitStage();
   }, 100);
 });
 </script>
