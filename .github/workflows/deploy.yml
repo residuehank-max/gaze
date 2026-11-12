@@ -34,6 +34,9 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          # 第一次跑的時候順便把 Pages 打開，不用去 Settings 手動設
+          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
