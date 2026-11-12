@@ -120,11 +120,13 @@ figure{margin:0}
    ==================================================== */
 #single{padding-bottom:40px}
 #single .stage{
+  position:relative;
   height:min(70vh, 760px); min-height:300px;
-  display:flex; align-items:center; justify-content:center; gap:10px;
+  display:flex; align-items:center; justify-content:center;
   touch-action:pan-y;
 }
 #single .shot{
+  flex:none;
   background-color:var(--c1);
   background-image:var(--grain), linear-gradient(164deg, var(--c1), var(--c2));
   background-blend-mode:overlay, normal;
@@ -134,9 +136,12 @@ figure{margin:0}
 #single .shot img{display:block; width:100%; height:100%; object-fit:contain}
 #single .shot:focus-visible{outline:1px solid var(--accent); outline-offset:5px}
 #single .arrow{
-  flex:none; background:none; border:0; font:inherit; font-size:15px; line-height:1;
-  color:var(--ink-faint); cursor:pointer; padding:14px 8px;
+  position:absolute; top:50%; transform:translateY(-50%); z-index:2;
+  background:none; border:0; font:inherit; font-size:15px; line-height:1;
+  color:var(--ink-faint); cursor:pointer; padding:14px 10px;
 }
+#single #prev{left:0}
+#single #next{right:0}
 #single .arrow:hover{color:var(--ink)}
 #single .arrow:focus-visible{outline:1px solid var(--accent); outline-offset:2px}
 
@@ -211,8 +216,9 @@ footer{padding-block:26px 44px; font-size:10.5px; letter-spacing:.13em; color:va
   padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px));
 }
 #lb .lbtop{display:flex; justify-content:flex-end; padding-block:14px}
-#lb .lbstage{flex:1; min-height:0; display:flex; align-items:center; justify-content:center; gap:18px; touch-action:pan-y}
+#lb .lbstage{position:relative; flex:1; min-height:0; display:flex; align-items:center; justify-content:center; touch-action:pan-y}
 #lb .shot{
+  flex:none;
   background-color:var(--c1);
   background-image:var(--grain), linear-gradient(164deg, var(--c1), var(--c2));
   background-blend-mode:overlay, normal;
@@ -223,13 +229,16 @@ footer{padding-block:26px 44px; font-size:10.5px; letter-spacing:.13em; color:va
 #lb .meta .gear{letter-spacing:.04em}
 #lb .meta .idx{margin-left:auto; font-variant-numeric:tabular-nums; color:var(--ink-faint); letter-spacing:.1em}
 #lb button{background:none; border:0; font:inherit; color:var(--ink-soft); cursor:pointer; padding:8px 10px; font-size:14px}
+#lb #lbPrev, #lb #lbNext{position:absolute; top:50%; transform:translateY(-50%); z-index:2; padding:16px 12px}
+#lb #lbPrev{left:0}
+#lb #lbNext{right:0}
 #lb button:hover{color:var(--ink)}
 #lb button:focus-visible{outline:1px solid var(--accent); outline-offset:3px}
 #lb .close{font-size:11px; letter-spacing:.17em; text-transform:uppercase}
 
 @media (max-width:560px){
   #single .stage{height:min(58vh, 520px)}
-  #single .arrow{padding:14px 2px}
+  #single .arrow, #lb #lbPrev, #lb #lbNext{display:none}
   #strip .th{width:44px}
   #works.masonry{columns:2 150px; column-gap:12px}
   #works.masonry .tile{margin-bottom:20px}
@@ -419,10 +428,18 @@ function ratioOf(p){
   const parts = String(p.ratio || '3/2').split('/').map(Number);
   return (parts[0] && parts[1]) ? parts[0] / parts[1] : 1.5;
 }
-/* fit a box of ratio r inside a container, letterboxed */
+/* 把比例為 r 的框塞進容器，長邊貼齊、短邊留白。
+   容器還沒有尺寸時（剛從隱藏切成顯示的那一瞬間）等下一幀再量，
+   不然會算出一個超出畫面的框。 */
 function fitBox(el, box, r){
   const cw = box.clientWidth, ch = box.clientHeight;
-  if (!cw || !ch) return;
+  if (!cw || !ch){
+    requestAnimationFrame(() => {
+      const w = box.clientWidth, h = box.clientHeight;
+      if (w && h) fitBox(el, box, r);
+    });
+    return;
+  }
   if (r > cw / ch){ el.style.width = cw + 'px'; el.style.height = Math.round(cw / r) + 'px'; }
   else { el.style.height = ch + 'px'; el.style.width = Math.round(ch * r) + 'px'; }
 }
@@ -606,7 +623,13 @@ const lb      = document.getElementById('lb');
 const lbStage = document.getElementById('lbStage');
 const lbShot  = document.getElementById('lbShot');
 
-function openLb(){ paintLb(); lb.hidden = false; document.getElementById('lbClose').focus(); }
+/* 先顯示再量尺寸。反過來的話燈箱還是 display:none，
+   量到的寬高是 0，fitBox 會直接放棄，圖片就塌掉。 */
+function openLb(){
+  lb.hidden = false;
+  paintLb();
+  document.getElementById('lbClose').focus();
+}
 function closeLb(){ lb.hidden = true; if (view === 'single') paintSingle(); }
 function paintLb(){
   const p = shown[cur], t = tone(p);
