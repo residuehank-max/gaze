@@ -1,0 +1,42 @@
+# 原圖不進 repo —— 只留在本機硬碟和外接硬碟
+# （資料夾本身保留，裡面的東西全部忽略）
+photos-original/*
+!photos-original/.gitkeep
+originals/
+
+# RAW 與大圖格式
+*.NEF
+*.NRW
+*.RAF
+*.CR2
+*.CR3
+*.ARW
+*.dng
+*.DNG
+*.tif
+*.tiff
+*.psd
+*.xmp
+
+# Lightroom / Capture One
+*.lrcat
+*.lrcat-data
+*.lrdata/
+*.cosessiondb
+*.cometadata
+
+# 系統垃圾
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
+
+# 編輯器
+.vscode/
+.idea/
+*.swp
+
+# Python 虛擬環境（build.py 用）
+.venv/
+__pycache__/
+*.pyc

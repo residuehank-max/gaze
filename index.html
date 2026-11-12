@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LIU Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500&family=Zen+Old+Mincho:wght@400;600&display=swap">
+<meta name="description" content="LIU — 在台北拍照。人像、街拍、風景、底片。">
+<meta property="og:title" content="LIU Photography">
+<meta property="og:description" content="LIU — 在台北拍照。">
+<meta property="og:type" content="website">
+<style>
+/* --- base reset (the artifact host used to supply this) --- */
+:root{
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: light;
+}
+body{ margin:0; font-size:14px }
+img{ max-width:100% }
+[hidden]{ display:none !important }
+</style>
+<style>
+/* layout: one photo holds the screen; thumbnails sit under it as an index. Grid and list stay as secondary ways to browse. */
+:root{
+  --paper:#f5f6f5;
+  --surface:#ffffff;
+  --ink:#16181a;
+  --ink-soft:#6f757a;
+  --ink-faint:#9aa0a4;
+  --rule:#dcdedd;
+  --accent:#3c5a7a;
+  --font-ui:"Zen Kaku Gothic New","Noto Sans TC",system-ui,-apple-system,sans-serif;
+  --font-title:"Zen Old Mincho","Noto Serif TC",Georgia,"Times New Roman",serif;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121314; --surface:#1a1c1d; --ink:#e9e9e6; --ink-soft:#92989d;
+    --ink-faint:#696e72; --rule:#2a2c2e; --accent:#90b4d6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121314; --surface:#1a1c1d; --ink:#e9e9e6; --ink-soft:#92989d;
+  --ink-faint:#696e72; --rule:#2a2c2e; --accent:#90b4d6;
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--font-ui); font-weight:300;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{
+  max-width:1360px; margin:0 auto;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+a{color:inherit}
+
+/* ---------- header ---------- */
+.masthead{display:flex; align-items:baseline; justify-content:space-between; gap:24px; padding-block:24px 18px; flex-wrap:wrap}
+.mark{font-family:var(--font-title); font-size:19px; letter-spacing:.14em; font-weight:400}
+.mark em{font-style:normal; color:var(--ink-faint); letter-spacing:.2em; font-size:12px; margin-left:10px}
+.nav{display:flex; gap:22px; font-size:11px; letter-spacing:.17em; text-transform:uppercase; color:var(--ink-soft)}
+.nav a{text-decoration:none; padding-bottom:3px; border-bottom:1px solid transparent}
+.nav a:hover{border-bottom-color:var(--ink)}
+.nav a:focus-visible{outline:1px solid var(--accent); outline-offset:3px}
+
+.note{
+  display:flex; gap:12px; align-items:flex-start; justify-content:space-between;
+  border:1px solid var(--rule); background:var(--surface);
+  padding:11px 14px; font-size:12px; line-height:1.75; color:var(--ink-soft); margin-bottom:18px;
+}
+.note b{color:var(--ink); font-weight:500}
+.note code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11.5px; color:var(--ink)}
+.note button{flex:none; background:none; border:0; color:var(--ink-faint); font:inherit; font-size:16px; line-height:1; cursor:pointer; padding:2px 4px}
+
+/* ---------- section bar ---------- */
+.bar{display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap; padding-bottom:10px}
+.bar h1{margin:0; font-family:var(--font-title); font-weight:400; font-size:14px; letter-spacing:.12em}
+.views{display:flex; gap:14px; flex-wrap:wrap}
+.views button{
+  background:none; border:0; padding:0 0 3px; font:inherit; font-size:11px; letter-spacing:.15em;
+  color:var(--ink-faint); cursor:pointer; border-bottom:1px solid transparent;
+}
+.views button[aria-pressed="true"]{color:var(--ink); border-bottom-color:var(--accent)}
+.views button:hover{color:var(--ink-soft)}
+.views button:focus-visible{outline:1px solid var(--accent); outline-offset:3px}
+
+hr.rule{border:0; border-top:1px solid var(--rule); margin:0}
+
+/* ---------- filters ---------- */
+.filters{display:flex; flex-wrap:wrap; gap:6px 20px; padding-block:14px 18px}
+.filters button{
+  background:none; border:0; padding:2px 0; font:inherit; font-size:12px; letter-spacing:.06em;
+  color:var(--ink-soft); cursor:pointer; border-bottom:1px solid transparent;
+}
+.filters button[aria-pressed="true"]{color:var(--ink); border-bottom-color:var(--accent)}
+.filters button:hover{color:var(--ink)}
+.filters button:focus-visible{outline:1px solid var(--accent); outline-offset:3px}
+.filters .count{color:var(--ink-faint); font-size:10px; margin-left:5px; font-variant-numeric:tabular-nums}
+
+/* ---------- the frame ---------- */
+.frame{
+  display:block; padding:0; border:0; cursor:zoom-in; position:relative; overflow:hidden;
+  background-color:var(--c1);
+  background-image:var(--grain), linear-gradient(164deg, var(--c1), var(--c2));
+  background-blend-mode:overlay, normal;
+}
+.frame img{display:block; width:100%; height:100%; object-fit:cover}
+figure{margin:0}
+
+/* ====================================================
+   VIEW: 單張 — one photo holds the screen
+   ==================================================== */
+#single{padding-bottom:40px}
+#single .stage{
+  height:min(70vh, 760px); min-height:300px;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  touch-action:pan-y;
+}
+#single .shot{
+  background-color:var(--c1);
+  background-image:var(--grain), linear-gradient(164deg, var(--c1), var(--c2));
+  background-blend-mode:overlay, normal;
+  cursor:zoom-in; border:0; padding:0; display:block; position:relative; overflow:hidden;
+  transition:opacity .28s ease;
+}
+#single .shot img{display:block; width:100%; height:100%; object-fit:contain}
+#single .shot:focus-visible{outline:1px solid var(--accent); outline-offset:5px}
+#single .arrow{
+  flex:none; background:none; border:0; font:inherit; font-size:15px; line-height:1;
+  color:var(--ink-faint); cursor:pointer; padding:14px 8px;
+}
+#single .arrow:hover{color:var(--ink)}
+#single .arrow:focus-visible{outline:1px solid var(--accent); outline-offset:2px}
+
+#single .caption{
+  display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;
+  padding-block:16px 4px; border-bottom:1px solid var(--rule); margin-bottom:22px;
+}
+#single .caption .t{font-family:var(--font-title); font-size:15px; color:var(--ink)}
+#single .caption .y{color:var(--ink-faint); font-size:11.5px; font-variant-numeric:tabular-nums}
+#single .caption .gear{color:var(--ink-soft); font-size:11.5px; letter-spacing:.04em}
+#single .caption .tag{color:var(--ink-faint); font-size:11px; letter-spacing:.06em}
+#single .caption .idx{
+  margin-left:auto; color:var(--ink-faint); font-size:11px;
+  font-variant-numeric:tabular-nums; letter-spacing:.12em;
+}
+
+#strip{
+  display:flex; gap:7px; overflow-x:auto; overflow-y:hidden; padding-bottom:8px;
+  scrollbar-width:thin;
+}
+#strip .th{
+  flex:none; width:54px; aspect-ratio:1/1; border:0; padding:0; cursor:pointer; opacity:.5;
+  background-color:var(--c1);
+  background-image:linear-gradient(164deg, var(--c1), var(--c2));
+  transition:opacity .2s ease;
+}
+#strip .th img{display:block; width:100%; height:100%; object-fit:cover}
+#strip .th:hover{opacity:.8}
+#strip .th[aria-current="true"]{opacity:1; box-shadow:0 0 0 1px var(--paper), 0 0 0 2px var(--accent)}
+#strip .th:focus-visible{outline:1px solid var(--accent); outline-offset:2px}
+
+/* ====================================================
+   VIEW: 索引 / 清單
+   ==================================================== */
+#works figcaption{
+  display:flex; align-items:baseline; gap:10px; padding-top:9px;
+  font-family:var(--font-title); font-size:12.5px; line-height:1.5; color:var(--ink);
+}
+#works figcaption .y{margin-left:auto; color:var(--ink-faint); font-family:var(--font-ui); font-size:11px; font-variant-numeric:tabular-nums}
+#works .cat{color:var(--ink-faint); font-family:var(--font-ui); font-size:11px; letter-spacing:.06em; margin-left:10px}
+#works .frame{width:100%; max-width:100%}
+
+#works.masonry{columns:4 250px; column-gap:22px; padding-bottom:50px}
+#works.masonry .tile{break-inside:avoid; margin:0 0 30px}
+#works.masonry .cat{display:none}
+
+#works.list{display:block; padding-bottom:50px}
+#works.list .tile{
+  display:grid; grid-template-columns:76px 1fr auto; align-items:center; gap:18px;
+  margin:0; padding-block:11px; border-bottom:1px solid var(--rule);
+}
+#works.list .frame{aspect-ratio:3/2 !important}
+#works.list figcaption{display:contents}
+#works.list figcaption .t{min-width:0; padding:0}
+#works.list figcaption .y{margin-left:0}
+
+.msg{padding:40px 0 60px; color:var(--ink-faint); font-size:13px}
+
+/* ---------- about / contact ---------- */
+.ends{display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:34px; padding-block:40px 20px; border-top:1px solid var(--rule)}
+.ends section{min-width:0}
+.ends h2{margin:0 0 12px; font-size:11px; letter-spacing:.17em; text-transform:uppercase; color:var(--ink-faint); font-weight:400}
+.ends p{margin:0 0 10px; font-size:13px; line-height:1.95; max-width:62ch; color:var(--ink-soft)}
+.ends .ty{font-family:var(--font-title); color:var(--ink)}
+footer{padding-block:26px 44px; font-size:10.5px; letter-spacing:.13em; color:var(--ink-faint); text-transform:uppercase}
+
+/* ---------- fullscreen ---------- */
+#lb{
+  position:fixed; inset:0; z-index:40; background:var(--paper);
+  display:flex; flex-direction:column;
+  padding-top:env(safe-area-inset-top, 0px); padding-bottom:env(safe-area-inset-bottom, 0px);
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+#lb .lbtop{display:flex; justify-content:flex-end; padding-block:14px}
+#lb .lbstage{flex:1; min-height:0; display:flex; align-items:center; justify-content:center; gap:18px; touch-action:pan-y}
+#lb .shot{
+  background-color:var(--c1);
+  background-image:var(--grain), linear-gradient(164deg, var(--c1), var(--c2));
+  background-blend-mode:overlay, normal;
+}
+#lb .shot img{display:block; width:100%; height:100%; object-fit:contain}
+#lb .meta{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; padding-block:16px 26px; font-size:12px; color:var(--ink-soft)}
+#lb .meta .t{font-family:var(--font-title); font-size:14px; color:var(--ink)}
+#lb .meta .gear{letter-spacing:.04em}
+#lb .meta .idx{margin-left:auto; font-variant-numeric:tabular-nums; color:var(--ink-faint); letter-spacing:.1em}
+#lb button{background:none; border:0; font:inherit; color:var(--ink-soft); cursor:pointer; padding:8px 10px; font-size:14px}
+#lb button:hover{color:var(--ink)}
+#lb button:focus-visible{outline:1px solid var(--accent); outline-offset:3px}
+#lb .close{font-size:11px; letter-spacing:.17em; text-transform:uppercase}
+
+@media (max-width:560px){
+  #single .stage{height:min(58vh, 520px)}
+  #single .arrow{padding:14px 2px}
+  #strip .th{width:44px}
+  #works.masonry{columns:2 150px; column-gap:12px}
+  #works.masonry .tile{margin-bottom:20px}
+  #works.list .tile{grid-template-columns:60px 1fr auto; gap:12px}
+  .masthead{padding-block:18px 14px}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="mark" id="mark">LIU<em>PHOTOGRAPHY</em></div>
+    <nav class="nav">
+      <a href="#works-top">Works</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+
+  <div class="bar" id="works-top">
+    <h1>WORKS <span id="range">—</span></h1>
+    <div class="views" id="views">
+      <button type="button" data-view="single"  aria-pressed="true">單張</button>
+      <button type="button" data-view="masonry" aria-pressed="false">索引</button>
+      <button type="button" data-view="list"    aria-pressed="false">清單</button>
+    </div>
+  </div>
+  <hr class="rule">
+
+  <div class="filters" id="filters"></div>
+
+  <!-- VIEW: single -->
+  <div id="single" hidden>
+    <div class="stage" id="stage">
+      <button type="button" class="arrow" id="prev" aria-label="上一張">←</button>
+      <button type="button" class="shot" id="shot" aria-label="放大為全螢幕"></button>
+      <button type="button" class="arrow" id="next" aria-label="下一張">→</button>
+    </div>
+    <div class="caption">
+      <span class="t" id="cTitle"></span>
+      <span class="y" id="cYear"></span>
+      <span class="tag" id="cTag"></span>
+      <span class="gear" id="cGear"></span>
+      <span class="idx" id="cIdx"></span>
+    </div>
+    <div id="strip"></div>
+  </div>
+
+  <!-- VIEW: masonry / list -->
+  <div id="works" hidden></div>
+
+  <p class="msg" id="msg">正在讀取 photos.json…</p>
+
+  <div class="ends">
+    <section id="about">
+      <h2>About</h2>
+      <div id="aboutBody"></div>
+    </section>
+    <section id="contact">
+      <h2>Contact</h2>
+      <p class="ty" id="mail"></p>
+      <p id="links"></p>
+    </section>
+  </div>
+
+  <footer id="foot">© 2026 LIU — All photographs are my own.</footer>
+</div>
+
+<div id="lb" hidden>
+  <div class="lbtop"><button type="button" class="close" id="lbClose">Close ✕</button></div>
+  <div class="lbstage" id="lbStage">
+    <button type="button" id="lbPrev" aria-label="上一張">←</button>
+    <div class="shot" id="lbShot"></div>
+    <button type="button" id="lbNext" aria-label="下一張">→</button>
+  </div>
+  <div class="meta">
+    <span class="t" id="lbTitle"></span>
+    <span class="gear" id="lbGear"></span>
+    <span class="idx" id="lbIdx"></span>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   VIEW LAYER — nothing here knows which photos exist.
+   Every label, category and frame comes from photos.json.
+   ============================================================ */
+
+const singleEl = document.getElementById('single');
+const worksEl  = document.getElementById('works');
+const stripEl  = document.getElementById('strip');
+const stageEl  = document.getElementById('stage');
+const shotEl   = document.getElementById('shot');
+const filters  = document.getElementById('filters');
+const msg      = document.getElementById('msg');
+
+let DATA = null, active = 'all', shown = [], cur = 0, view = 'single';
+
+/* 網址帶著照片 id 進來的話，載入後直接定位到那張 */
+let pendingId = decodeURIComponent((location.hash || '').replace(/^#/, '')) || null;
+
+/* srcset：讓瀏覽器自己挑尺寸。手機不會去下載 2560px 的版本。
+   p.sizes 的 key 是該檔案的實際像素寬度，正是 srcset 的 w 描述子。 */
+function applySrc(img, p, sizesAttr){
+  const map = p.sizes || null;
+  const ws = map ? Object.keys(map).map(Number).filter(Boolean).sort((a, b) => a - b) : [];
+  if (ws.length){
+    img.srcset = ws.map(w => map[w] + ' ' + w + 'w').join(', ');
+    img.sizes = sizesAttr;
+    img.src = map[ws[ws.length - 1]];
+  } else if (p.file){
+    img.src = p.file;
+  }
+}
+
+/* 版面各處照片實際佔多寬，瀏覽器靠這個決定要拿哪一檔 */
+const SIZES = {
+  single: '(max-width: 560px) 100vw, 70vw',
+  full:   '100vw',
+  thumb:  '(max-width: 560px) 44px, 54px',
+  grid:   '(max-width: 560px) 50vw, (max-width: 1100px) 33vw, 25vw',
+  row:    '(max-width: 560px) 60px, 76px'
+};
+
+fetch('photos.json', { cache: 'no-store' })
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(d => { DATA = d; boot(); })
+  .catch(err => { msg.textContent = '讀不到 photos.json（' + err.message + '）。資料檔要跟這一頁放在一起。'; });
+
+function boot(){
+  const s = DATA.site || {};
+  if (s.name) document.getElementById('mark').innerHTML = s.name + (s.subtitle ? '<em>' + s.subtitle + '</em>' : '');
+
+  const about = document.getElementById('aboutBody');
+  (s.about || []).forEach((t, i) => {
+    const p = document.createElement('p');
+    if (i === 0) p.className = 'ty';
+    p.textContent = t;
+    about.appendChild(p);
+  });
+
+  const c = s.contact || {};
+  document.getElementById('mail').textContent = c.email || '';
+  document.getElementById('links').textContent = (c.links || []).join(' ／ ');
+  if (s.name) document.getElementById('foot').textContent =
+    '© ' + new Date().getFullYear() + ' ' + s.name + ' — All photographs are my own.';
+
+  const years = (DATA.photos || []).map(p => p.year).filter(Boolean);
+  document.getElementById('range').textContent = years.length ? Math.min(...years) + '–' + Math.max(...years) : '';
+
+  buildFilters();
+  render();
+}
+
+/* ---------- categories come from the data ---------- */
+function buildFilters(){
+  const cats = [{ key:'all', label:'全部' }].concat(DATA.categories || []);
+  filters.innerHTML = '';
+  cats.forEach(c => {
+    const n = c.key === 'all' ? DATA.photos.length : DATA.photos.filter(p => inCat(p, c.key)).length;
+    if (!n) return;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.dataset.cat = c.key;
+    b.setAttribute('aria-pressed', String(c.key === active));
+    b.innerHTML = c.label + '<span class="count">' + n + '</span>';
+    b.addEventListener('click', () => {
+      active = c.key;
+      [...filters.children].forEach(x => x.setAttribute('aria-pressed', String(x.dataset.cat === active)));
+      render();
+    });
+    filters.appendChild(b);
+  });
+}
+function inCat(p, key){
+  const list = Array.isArray(p.categories) ? p.categories : (p.categories ? [p.categories] : []);
+  return list.indexOf(key) !== -1;
+}
+function catLabels(p){
+  const list = Array.isArray(p.categories) ? p.categories : [];
+  return list.map(k => {
+    const f = (DATA.categories || []).find(c => c.key === k);
+    return f ? f.label : k;
+  }).join('・');
+}
+function tone(p){ return p.tone || ['#8a9099', '#d4d8da']; }
+function ratioOf(p){
+  const parts = String(p.ratio || '3/2').split('/').map(Number);
+  return (parts[0] && parts[1]) ? parts[0] / parts[1] : 1.5;
+}
+/* fit a box of ratio r inside a container, letterboxed */
+function fitBox(el, box, r){
+  const cw = box.clientWidth, ch = box.clientHeight;
+  if (!cw || !ch) return;
+  if (r > cw / ch){ el.style.width = cw + 'px'; el.style.height = Math.round(cw / r) + 'px'; }
+  else { el.style.height = ch + 'px'; el.style.width = Math.round(ch * r) + 'px'; }
+}
+
+/* ---------- render ---------- */
+function render(){
+  shown = DATA.photos.filter(p => active === 'all' || inCat(p, active));
+
+  if (pendingId){
+    const i = shown.findIndex(p => p.id === pendingId);
+    if (i >= 0) cur = i;
+    pendingId = null;
+  }
+  if (cur >= shown.length) cur = 0;
+
+  const empty = shown.length === 0;
+  msg.hidden = !empty;
+  if (empty) msg.textContent = '這個分類還沒有照片。';
+
+  singleEl.hidden = empty || view !== 'single';
+  worksEl.hidden  = empty || view === 'single';
+
+  if (empty) return;
+  if (view === 'single'){ paintSingle(); buildStrip(); }
+  else { buildIndex(); }
+}
+
+/* ---------- single ---------- */
+function paintSingle(){
+  const p = shown[cur], t = tone(p);
+  shotEl.style.setProperty('--c1', t[0]);
+  shotEl.style.setProperty('--c2', t[1]);
+  shotEl.innerHTML = '';
+  if (p.file){
+    const img = document.createElement('img');
+    img.alt = p.title;
+    img.decoding = 'async';
+    applySrc(img, p, SIZES.single);
+    shotEl.appendChild(img);
+  }
+  fitBox(shotEl, stageEl, ratioOf(p));
+  syncHash();
+
+  document.getElementById('cTitle').textContent = p.title || '';
+  document.getElementById('cYear').textContent  = p.year || '';
+  document.getElementById('cTag').textContent   = catLabels(p);
+  document.getElementById('cGear').textContent  = p.gear || '';
+  document.getElementById('cIdx').textContent   = (cur + 1) + ' / ' + shown.length;
+
+  [...stripEl.children].forEach((x, i) => x.setAttribute('aria-current', String(i === cur)));
+  const act = stripEl.children[cur];
+  if (act) act.scrollIntoView({ block:'nearest', inline:'center', behavior:'smooth' });
+
+  /* 預先載入前後一張，按方向鍵換張才不會等。
+     這裡也走 srcset，所以預載的是瀏覽器真的會用的那一檔。 */
+  [cur + 1, cur - 1].forEach(i => {
+    const n = shown[(i + shown.length) % shown.length];
+    if (n && n.file) applySrc(new Image(), n, SIZES.single);
+  });
+}
+
+/* 讓網址跟著目前這張走，複製貼給別人就會開在同一張。
+   用 replaceState 而不是 pushState——不然按 50 次方向鍵會塞 50 筆歷史紀錄。 */
+function syncHash(){
+  const p = shown[cur];
+  if (!p || !p.id) return;
+  const h = '#' + encodeURIComponent(p.id);
+  if (location.hash !== h){
+    try { history.replaceState(null, '', h); } catch (e) { /* file:// 下會擋，忽略 */ }
+  }
+}
+
+/* 別人貼網址進來、或自己改了 hash */
+window.addEventListener('hashchange', () => {
+  const id = decodeURIComponent((location.hash || '').replace(/^#/, ''));
+  if (!id) return;
+  const i = shown.findIndex(p => p.id === id);
+  if (i < 0 || i === cur) return;          // 不是照片 id（例如 #about）就不管
+  cur = i;
+  if (view !== 'single') setView('single');
+  else paintSingle();
+});
+
+function buildStrip(){
+  stripEl.innerHTML = '';
+  shown.forEach((p, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'th';
+    const t = tone(p);
+    b.style.setProperty('--c1', t[0]);
+    b.style.setProperty('--c2', t[1]);
+    b.setAttribute('aria-label', p.title);
+    b.setAttribute('aria-current', String(i === cur));
+    if (p.file){
+      const img = document.createElement('img');
+      img.alt = ''; img.loading = 'lazy';
+      applySrc(img, p, SIZES.thumb);
+      b.appendChild(img);
+    }
+    b.addEventListener('click', () => { cur = i; paintSingle(); });
+    stripEl.appendChild(b);
+  });
+}
+
+function step(d){
+  if (!shown.length) return;
+  cur = (cur + d + shown.length) % shown.length;
+  if (lb.hidden) paintSingle(); else paintLb();
+}
+document.getElementById('prev').addEventListener('click', () => step(-1));
+document.getElementById('next').addEventListener('click', () => step(1));
+shotEl.addEventListener('click', () => openLb());
+
+/* swipe */
+function swipe(el){
+  let x0 = null, y0 = null;
+  el.addEventListener('pointerdown', e => { x0 = e.clientX; y0 = e.clientY; });
+  el.addEventListener('pointerup', e => {
+    if (x0 === null) return;
+    const dx = e.clientX - x0, dy = e.clientY - y0;
+    x0 = null;
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
+  });
+  el.addEventListener('pointercancel', () => { x0 = null; });
+}
+swipe(stageEl);
+
+/* ---------- index views ---------- */
+function buildIndex(){
+  worksEl.className = view;
+  worksEl.innerHTML = '';
+  shown.forEach((p, i) => {
+    const fig = document.createElement('figure');
+    fig.className = 'tile';
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'frame';
+    const t = tone(p);
+    btn.style.setProperty('--c1', t[0]);
+    btn.style.setProperty('--c2', t[1]);
+    btn.style.aspectRatio = p.ratio || '3/2';
+    btn.setAttribute('aria-label', p.title + '，單張檢視');
+    if (p.file){
+      const img = document.createElement('img');
+      img.alt = p.title; img.loading = 'lazy'; img.decoding = 'async';
+      applySrc(img, p, view === 'list' ? SIZES.row : SIZES.grid);
+      btn.appendChild(img);
+    }
+    btn.addEventListener('click', () => { cur = i; setView('single'); });
+
+    const cap = document.createElement('figcaption');
+    const tt = document.createElement('span');
+    tt.className = 't';
+    tt.textContent = p.title;
+    const cc = document.createElement('span');
+    cc.className = 'cat';
+    cc.textContent = catLabels(p);
+    tt.appendChild(cc);
+    const yy = document.createElement('span');
+    yy.className = 'y';
+    yy.textContent = p.year || '';
+    cap.append(tt, yy);
+
+    fig.append(btn, cap);
+    worksEl.appendChild(fig);
+  });
+}
+
+/* ---------- view switch ---------- */
+function setView(v){
+  view = v;
+  document.querySelectorAll('#views button').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.view === v)));
+  render();
+}
+document.getElementById('views').addEventListener('click', e => {
+  const b = e.target.closest('button[data-view]');
+  if (b) setView(b.dataset.view);
+});
+
+/* ---------- fullscreen ---------- */
+const lb      = document.getElementById('lb');
+const lbStage = document.getElementById('lbStage');
+const lbShot  = document.getElementById('lbShot');
+
+function openLb(){ paintLb(); lb.hidden = false; document.getElementById('lbClose').focus(); }
+function closeLb(){ lb.hidden = true; if (view === 'single') paintSingle(); }
+function paintLb(){
+  const p = shown[cur], t = tone(p);
+  lbShot.style.setProperty('--c1', t[0]);
+  lbShot.style.setProperty('--c2', t[1]);
+  lbShot.innerHTML = '';
+  if (p.file){
+    const img = document.createElement('img');
+    img.alt = p.title;
+    applySrc(img, p, SIZES.full);
+    lbShot.appendChild(img);
+  }
+  fitBox(lbShot, lbStage, ratioOf(p));
+  document.getElementById('lbTitle').textContent = p.title + (p.year ? '，' + p.year : '');
+  document.getElementById('lbGear').textContent  = p.gear || '';
+  document.getElementById('lbIdx').textContent   = (cur + 1) + ' / ' + shown.length;
+}
+document.getElementById('lbClose').addEventListener('click', closeLb);
+document.getElementById('lbPrev').addEventListener('click', () => step(-1));
+document.getElementById('lbNext').addEventListener('click', () => step(1));
+swipe(lbStage);
+
+/* ---------- keyboard ---------- */
+document.addEventListener('keydown', e => {
+  if (!lb.hidden){
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft')  step(-1);
+    if (e.key === 'ArrowRight') step(1);
+    return;
+  }
+  if (view !== 'single' || !shown.length) return;
+  if (e.target.closest('button') && (e.key === ' ' || e.key === 'Enter')) return;
+  if (e.key === 'ArrowLeft')  { e.preventDefault(); step(-1); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+});
+
+/* ---------- keep the letterbox correct on resize ---------- */
+let rid = null;
+window.addEventListener('resize', () => {
+  clearTimeout(rid);
+  rid = setTimeout(() => {
+    if (!shown.length) return;
+    if (!lb.hidden) fitBox(lbShot, lbStage, ratioOf(shown[cur]));
+    else if (view === 'single') fitBox(shotEl, stageEl, ratioOf(shown[cur]));
+  }, 100);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "site": {
+    "name": "LIU",
+    "subtitle": "PHOTOGRAPHY",
+    "about": [
+      "在台北拍照。平日上班，照片多半是通勤路上、週末，和出門旅行的時候拍的。",
+      "器材以 Nikon Zf 為主，另外會用手動鏡和底片機。底片以負片為主，偏好低飽和、柔一點的色調。"
+    ],
+    "contact": {
+      "email": "hank0821taipei@gmail.com",
+      "links": ["Instagram", "Threads"]
+    }
+  },
+
+  "categories": [
+    { "key": "portrait",  "label": "人像" },
+    { "key": "street",    "label": "街拍" },
+    { "key": "landscape", "label": "風景" },
+    { "key": "travel",    "label": "旅行" },
+    { "key": "film",      "label": "底片" },
+    { "key": "still",     "label": "靜物" }
+  ],
+
+  "photos": [
+    { "id": "2026-keelung-rain",   "file": "", "title": "基隆 雨港",    "year": 2026, "categories": ["street"],            "ratio": "3/2",  "gear": "Nikon Zf · 40mm f/2",        "tone": ["#5d6a74", "#b4bcc0"] },
+    { "id": "2026-by-the-window",  "file": "", "title": "窗邊",         "year": 2026, "categories": ["portrait"],          "ratio": "4/5",  "gear": "Nikon Zf · 85mm f/1.8",      "tone": ["#a98d80", "#e3d6cc"] },
+    { "id": "2025-taisho-pond",    "file": "", "title": "上高地 大正池", "year": 2025, "categories": ["travel", "landscape"], "ratio": "3/2",  "gear": "Nikon Zf · 24-70mm f/4",     "tone": ["#6f8a86", "#cfd9d2"] },
+    { "id": "2025-afternoon-desk", "file": "", "title": "午後 書桌",    "year": 2025, "categories": ["still"],             "ratio": "1/1",  "gear": "Nikon Zf · 50mm f/1.4",      "tone": ["#9a8f7d", "#ded6c6"] },
+    { "id": "2026-nagoya-under",   "file": "", "title": "名古屋 地下街", "year": 2026, "categories": ["travel", "street"],   "ratio": "2/3",  "gear": "Nikon Zf · 35mm f/1.8",      "tone": ["#4e525c", "#9ca2ab"] },
+    { "id": "2024-riverbank",      "file": "", "title": "河堤",         "year": 2024, "categories": ["landscape", "film"],  "ratio": "16/9", "gear": "Pentax 67 · Pro 400H",       "tone": ["#7c8b93", "#dbe1e2"] },
+    { "id": "2025-profile",        "file": "", "title": "側臉",         "year": 2025, "categories": ["portrait"],          "ratio": "2/3",  "gear": "Nikon Zf · 85mm f/1.8",      "tone": ["#8f7a76", "#ddd0ca"] },
+    { "id": "2026-xinyi-night",    "file": "", "title": "信義路 夜",    "year": 2026, "categories": ["street"],            "ratio": "3/2",  "gear": "Nikon Zf · 40mm f/2",        "tone": ["#3f444c", "#8a9099"] },
+    { "id": "2024-balcony-plants", "file": "", "title": "陽台 植物",    "year": 2024, "categories": ["still"],             "ratio": "4/5",  "gear": "Nikon Zf · 50mm macro",      "tone": ["#6e7f68", "#ccd4c2"] },
+    { "id": "2025-northeast",      "file": "", "title": "東北角",       "year": 2025, "categories": ["landscape", "film"],  "ratio": "3/2",  "gear": "Pentax 67 · Pro 400H",       "tone": ["#6a7d8a", "#c8d2d6"] },
+    { "id": "2024-breakfast",      "file": "", "title": "早餐店",       "year": 2024, "categories": ["film", "street"],     "ratio": "3/2",  "gear": "Contax T2 · Superia 400",    "tone": ["#9c8a72", "#e0d4c0"] },
+    { "id": "2025-summer-light",   "file": "", "title": "夏天的光",     "year": 2025, "categories": ["portrait"],          "ratio": "4/5",  "gear": "Nikon Zf · 58mm f/1.2",      "tone": ["#b2947f", "#eee0d2"] },
+    { "id": "2025-kappa-bridge",   "file": "", "title": "上高地 河童橋", "year": 2025, "categories": ["travel", "landscape"], "ratio": "5/4",  "gear": "Nikon Zf · 24-70mm f/4",     "tone": ["#66808b", "#c6d3d6"] },
+    { "id": "2024-dihua",          "file": "", "title": "迪化街",       "year": 2024, "categories": ["street", "film"],     "ratio": "2/3",  "gear": "Contax T2 · Portra 400",     "tone": ["#8b7f74", "#d6cbc0"] },
+    { "id": "2023-fog",            "file": "", "title": "霧",           "year": 2023, "categories": ["landscape", "film"],  "ratio": "16/9", "gear": "Pentax 67 · Acros 100",      "tone": ["#86909a", "#dfe3e6"] },
+    { "id": "2026-flowers",        "file": "", "title": "桌上的花",     "year": 2026, "categories": ["still"],             "ratio": "1/1",  "gear": "Nikon Zf · 50mm f/1.4",      "tone": ["#a47f85", "#e6d5d6"] },
+    { "id": "2023-tamsui-last",    "file": "", "title": "淡水 最後一班", "year": 2023, "categories": ["film", "street"],     "ratio": "3/2",  "gear": "Contax T2 · Portra 800",     "tone": ["#5a616c", "#a9b0b8"] },
+    { "id": "2026-back",           "file": "", "title": "背影",         "year": 2026, "categories": ["portrait", "street"], "ratio": "2/3",  "gear": "Nikon Zf · 85mm f/1.8",      "tone": ["#8a8178", "#d8d1c8"] },
+    { "id": "2024-winter-sea",     "file": "", "title": "冬天的海",     "year": 2024, "categories": ["landscape"],         "ratio": "3/2",  "gear": "Nikon Zf · 24-70mm f/4",     "tone": ["#737f88", "#ccd3d7"] },
+    { "id": "2023-old-house",      "file": "", "title": "老屋",         "year": 2023, "categories": ["film", "still"],      "ratio": "5/4",  "gear": "Pentax 67 · Pro 400H",       "tone": ["#948571", "#dcd0be"] }
+  ]
+}

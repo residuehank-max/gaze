@@ -1,0 +1,45 @@
+name: Deploy to GitHub Pages
+
+# 每次推到 main 就自動部署。
+# 注意：這個流程不處理照片 —— 照片在本機用 tools/build.py 壓好、
+# 連同 photos.json 一起 commit。原圖不進 repo。
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同時只跑一個部署，新的推上來就取代還在排隊的
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sanity check — photos.json 要是合法 JSON
+        run: python3 -c "import json;d=json.load(open('photos.json'));print(len(d['photos']),'photos')"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
