@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>LIU Photography</title>
+<title>gaze</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@300;400;500&family=Zen+Old+Mincho:wght@400;600&display=swap">
-<meta name="description" content="LIU — 在台北拍照。人像、街拍、風景、底片。">
-<meta property="og:title" content="LIU Photography">
-<meta property="og:description" content="LIU — 在台北拍照。">
+<meta name="description" content="gaze — 在台北拍照。">
+<meta property="og:title" content="gaze">
+<meta property="og:description" content="gaze — 在台北拍照。">
 <meta property="og:type" content="website">
 <style>
 /* --- base reset (the artifact host used to supply this) --- */
@@ -185,7 +185,7 @@ figure{margin:0}
 
 #works.list{display:block; padding-bottom:50px}
 #works.list .tile{
-  display:grid; grid-template-columns:76px 1fr auto; align-items:center; gap:18px;
+  display:grid; grid-template-columns:76px 1fr; align-items:center; gap:18px;
   margin:0; padding-block:11px; border-bottom:1px solid var(--rule);
 }
 #works.list .frame{aspect-ratio:3/2 !important}
@@ -233,7 +233,7 @@ footer{padding-block:26px 44px; font-size:10.5px; letter-spacing:.13em; color:va
   #strip .th{width:44px}
   #works.masonry{columns:2 150px; column-gap:12px}
   #works.masonry .tile{margin-bottom:20px}
-  #works.list .tile{grid-template-columns:60px 1fr auto; gap:12px}
+  #works.list .tile{grid-template-columns:60px 1fr; gap:12px}
   .masthead{padding-block:18px 14px}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none !important}}
@@ -253,7 +253,7 @@ footer{padding-block:26px 44px; font-size:10.5px; letter-spacing:.13em; color:va
 
 
   <div class="bar" id="works-top">
-    <h1>WORKS <span id="range">—</span></h1>
+    <h1>WORKS</h1>
     <div class="views" id="views">
       <button type="button" data-view="single"  aria-pressed="true">單張</button>
       <button type="button" data-view="masonry" aria-pressed="false">索引</button>
@@ -273,7 +273,6 @@ footer{padding-block:26px 44px; font-size:10.5px; letter-spacing:.13em; color:va
     </div>
     <div class="caption">
       <span class="t" id="cTitle"></span>
-      <span class="y" id="cYear"></span>
       <span class="tag" id="cTag"></span>
       <span class="gear" id="cGear"></span>
       <span class="idx" id="cIdx"></span>
@@ -380,9 +379,6 @@ function boot(){
   if (s.name) document.getElementById('foot').textContent =
     '© ' + new Date().getFullYear() + ' ' + s.name + ' — All photographs are my own.';
 
-  const years = (DATA.photos || []).map(p => p.year).filter(Boolean);
-  document.getElementById('range').textContent = years.length ? Math.min(...years) + '–' + Math.max(...years) : '';
-
   buildFilters();
   render();
 }
@@ -471,7 +467,6 @@ function paintSingle(){
   syncHash();
 
   document.getElementById('cTitle').textContent = p.title || '';
-  document.getElementById('cYear').textContent  = p.year || '';
   document.getElementById('cTag').textContent   = catLabels(p);
   document.getElementById('cGear').textContent  = p.gear || '';
   document.getElementById('cIdx').textContent   = (cur + 1) + ' / ' + shown.length;
@@ -587,10 +582,7 @@ function buildIndex(){
     cc.className = 'cat';
     cc.textContent = catLabels(p);
     tt.appendChild(cc);
-    const yy = document.createElement('span');
-    yy.className = 'y';
-    yy.textContent = p.year || '';
-    cap.append(tt, yy);
+    cap.append(tt);
 
     fig.append(btn, cap);
     worksEl.appendChild(fig);
