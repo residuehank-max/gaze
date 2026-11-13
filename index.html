@@ -336,6 +336,10 @@ const msg      = document.getElementById('msg');
 
 let DATA = null, active = 'all', shown = [], cur = 0, view = 'single';
 
+/* 分類暫時不顯示。資料還留在 photos.json 的 categories 裡，
+   想開回來把下面這行改成 true 就好。 */
+const SHOW_CATEGORIES = false;
+
 /* 網址帶著照片 id 進來的話，載入後直接定位到那張 */
 let pendingId = decodeURIComponent((location.hash || '').replace(/^#/, '')) || null;
 
@@ -391,6 +395,7 @@ function boot(){
 
 /* ---------- categories come from the data ---------- */
 function buildFilters(){
+  if (!SHOW_CATEGORIES){ filters.hidden = true; return; }
   const cats = [{ key:'all', label:'全部' }].concat(DATA.categories || []);
   filters.innerHTML = '';
   cats.forEach(c => {
@@ -513,7 +518,7 @@ function paintSingle(){
   syncHash();
 
   document.getElementById('cTitle').textContent = p.title || '';
-  document.getElementById('cTag').textContent   = catLabels(p);
+  document.getElementById('cTag').textContent   = SHOW_CATEGORIES ? catLabels(p) : '';
   document.getElementById('cGear').textContent  = p.gear || '';
   document.getElementById('cIdx').textContent   = (cur + 1) + ' / ' + shown.length;
 
@@ -625,10 +630,12 @@ function buildIndex(){
     const tt = document.createElement('span');
     tt.className = 't';
     tt.textContent = p.title;
-    const cc = document.createElement('span');
-    cc.className = 'cat';
-    cc.textContent = catLabels(p);
-    tt.appendChild(cc);
+    if (SHOW_CATEGORIES){
+      const cc = document.createElement('span');
+      cc.className = 'cat';
+      cc.textContent = catLabels(p);
+      tt.appendChild(cc);
+    }
     cap.append(tt);
 
     fig.append(btn, cap);
