@@ -441,20 +441,36 @@ function fitBox(el, box, r){
   else { el.style.height = ch + 'px'; el.style.width = Math.round(ch * r) + 'px'; }
 }
 
-/* 把主照片放到最大，然後把舞台高度收到照片的高度。
-   不這樣做的話，手機上橫幅照片會浮在一大片空白中間。 */
+/* 舞台高度由「這組照片裡最高的那張」決定，而不是跟著當下這張變。
+
+   這樣翻頁時縮圖條和下面的東西都不會動 —— 版面穩定比填滿空間重要。
+   橫幅照片因此上下會留白，那是刻意的。
+   高度取最高的那張而不是固定的螢幕比例，是為了讓留白是「能給的最小值」：
+   如果某個分類全是橫幅，舞台就會自己變矮。 */
+function stageHeight(){
+  stageEl.style.height = '';                  // 先放開，量 CSS 給的上限
+  const maxH = stageEl.clientHeight, maxW = stageEl.clientWidth;
+  if (!maxH || !maxW) return 0;
+  let tallest = 0;
+  shown.forEach(p => {
+    const h = Math.min(maxH, maxW / ratioOf(p));
+    if (h > tallest) tallest = h;
+  });
+  return Math.round(tallest) || maxH;
+}
+
 function fitStage(){
   const p = shown[cur];
   if (!p) return;
-  const r = ratioOf(p);
-  stageEl.style.height = '';                 // 先放開，量 CSS 給的上限
-  const maxH = stageEl.clientHeight, maxW = stageEl.clientWidth;
-  if (!maxH || !maxW) return;
-  let w = maxW, h = Math.round(maxW / r);
-  if (h > maxH){ h = maxH; w = Math.round(maxH * r); }
-  shotEl.style.width  = w + 'px';
-  shotEl.style.height = h + 'px';
-  stageEl.style.height = h + 'px';
+  const H = stageHeight();
+  if (!H) return;
+  stageEl.style.height = H + 'px';
+
+  const maxW = stageEl.clientWidth, r = ratioOf(p);
+  let h = Math.min(H, maxW / r), w = h * r;
+  if (w > maxW){ w = maxW; h = w / r; }
+  shotEl.style.width  = Math.round(w) + 'px';
+  shotEl.style.height = Math.round(h) + 'px';
 }
 
 /* ---------- render ---------- */
