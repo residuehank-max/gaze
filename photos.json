@@ -116,24 +116,6 @@
       ]
     },
     {
-      "id": "ahead",
-      "file": "images/ahead-2560.jpg",
-      "sizes": {
-        "1280": "images/ahead-1280.jpg",
-        "2560": "images/ahead-2560.jpg"
-      },
-      "title": "前",
-      "categories": [
-        "racing"
-      ],
-      "ratio": "3/2",
-      "gear": "",
-      "tone": [
-        "#a1a1a1",
-        "#d3d3d3"
-      ]
-    },
-    {
       "id": "moon",
       "file": "images/moon-2560.jpg",
       "sizes": {
