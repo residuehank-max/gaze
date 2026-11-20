@@ -234,8 +234,11 @@ def build(force=False, check=False):
         long0 = max(w0, h0)
 
         # 只產生不超過原圖的尺寸，絕不放大。
-        # 原圖比最小設定還小的話，就照原樣輸出一份。
-        targets = [t for t in WIDTHS if t <= long0] or [long0]
+        # 原圖小於最大尺寸時，另外輸出一份原尺寸——
+        # 例如原圖 2352px，只給 1280 的話 retina 螢幕會浪費掉一半解析度。
+        targets = [t for t in WIDTHS if t <= long0]
+        if long0 < max(WIDTHS) and long0 not in targets:
+            targets.append(long0)
         biggest = OUT_DIR / f"{pid}-{max(targets)}.jpg"
 
         fresh = biggest.exists() and biggest.stat().st_mtime >= src.stat().st_mtime

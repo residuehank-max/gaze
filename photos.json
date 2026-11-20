@@ -134,6 +134,22 @@
         "#0d1113",
         "#2d4862"
       ]
+    },
+    {
+      "id": "barrier",
+      "file": "images/barrier-2352.jpg",
+      "sizes": {
+        "1280": "images/barrier-1280.jpg",
+        "2352": "images/barrier-2352.jpg"
+      },
+      "title": "隔閡",
+      "categories": [],
+      "ratio": "3/2",
+      "gear": "",
+      "tone": [
+        "#96afb8",
+        "#d5d8dc"
+      ]
     }
   ]
 }
