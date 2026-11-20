@@ -82,6 +82,22 @@
       ]
     },
     {
+      "id": "mirage",
+      "file": "images/mirage-2352.jpg",
+      "sizes": {
+        "853": "images/mirage-1280.jpg",
+        "1568": "images/mirage-2352.jpg"
+      },
+      "title": "海市蜃樓",
+      "categories": [],
+      "ratio": "2/3",
+      "gear": "",
+      "tone": [
+        "#181416",
+        "#dbdde3"
+      ]
+    },
+    {
       "id": "race",
       "file": "images/race-2560.jpg",
       "sizes": {
